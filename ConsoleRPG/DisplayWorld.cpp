@@ -1,20 +1,29 @@
 #include <iostream>
 #include <fstream>
+#include <Windows.h>
 #include "DisplayWorld.h"
 
 using namespace std;
+HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void DisplayWorld::ReadFile()
 {
+	// alter colors
+	SetConsoleTextAttribute(console, FOREGROUND_GREEN | BACKGROUND_BLUE);
+
+	// read the file
 	ifstream myfile("map.txt");
 	if (myfile.is_open())
 	{
+		//get spot one and add it to the grid
 		myfile.get(tile);
 		map[y][x] = tile;
 		x++;
+
+		// while the grid is not empty parse the characters and add to
+		// 2D array
 		while (tile != END)
 		{
-			// cout << tile;
 			myfile.get(tile);
 			
 			switch (tile)
@@ -22,7 +31,7 @@ void DisplayWorld::ReadFile()
 				case 'x':
 					tile = (char)178;
 					break;
-				case 'd':
+				case 'w':
 					tile = (char)176;
 					break;
 				case '\n':
